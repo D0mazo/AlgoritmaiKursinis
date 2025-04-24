@@ -1,0 +1,3 @@
+C:/Users/Domin/CLionProjects/TrysProgramos/cmake-build-debug/CMakeFiles/TrysProgramos.dir
+C:/Users/Domin/CLionProjects/TrysProgramos/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/Domin/CLionProjects/TrysProgramos/cmake-build-debug/CMakeFiles/rebuild_cache.dir
