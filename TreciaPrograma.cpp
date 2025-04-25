@@ -18,41 +18,29 @@ Mazgas* iterpti(Mazgas* pradzios, char duomuo) {
 }
 
 Mazgas* pasalintiZodzius(Mazgas* pradzios) {
-    if (!pradzios) return nullptr;
     Mazgas* einamasis = pradzios;
     while (einamasis) {
-        if ((einamasis->duomuo == 'A' || einamasis->duomuo == 'a') && 
-            (einamasis == pradzios || einamasis->ankstesnis && 
-            (einamasis->ankstesnis->duomuo == ' ' || einamasis->ankstesnis->duomuo == ',' || 
-             einamasis->ankstesnis->duomuo == '.'))) {
+        if ((einamasis->duomuo == 'A' || einamasis->duomuo == 'a') &&
+            (einamasis == pradzios || einamasis->ankstesnis->duomuo == ' ' ||
+             einamasis->ankstesnis->duomuo == ',' || einamasis->ankstesnis->duomuo == '.')) {
             Mazgas* zodzioPradzia = einamasis;
-            while (einamasis && einamasis->duomuo != ' ' && einamasis->duomuo != ',' && 
-                   einamasis->duomuo != '.') {
-                einamasis = einamasis->kitas;
-            }
-            Mazgas* zodzioPabaiga = einamasis ? einamasis->ankstesnis : nullptr;
-            if (!zodzioPabaiga) {
-                Mazgas* temp = pradzios;
-                while (temp) {
-                    Mazgas* kita = temp->kitas;
-                    delete temp;
-                    temp = kita;
-                }
-                return einamasis;
-            }
+            while (einamasis && einamasis->duomuo != ' ' && einamasis->duomuo != ',' &&
+                   einamasis->duomuo != '.') einamasis = einamasis->kitas;
+            Mazgas* poZodzio = einamasis;
             if (zodzioPradzia == pradzios) {
-                pradzios = einamasis;
+                pradzios = poZodzio;
                 if (pradzios) pradzios->ankstesnis = nullptr;
             } else {
-                zodzioPradzia->ankstesnis->kitas = einamasis;
-                if (einamasis) einamasis->ankstesnis = zodzioPradzia->ankstesnis;
+                zodzioPradzia->ankstesnis->kitas = poZodzio;
+                if (poZodzio) poZodzio->ankstesnis = zodzioPradzia->ankstesnis;
             }
             Mazgas* temp = zodzioPradzia;
-            while (temp != einamasis) {
+            while (temp != poZodzio) {
                 Mazgas* kita = temp->kitas;
                 delete temp;
                 temp = kita;
             }
+            einamasis = poZodzio;
         } else {
             einamasis = einamasis->kitas;
         }
@@ -79,15 +67,14 @@ void atlaisvintiSarasa(Mazgas* pradzios) {
 }
 
 void ivestiSarasa(Mazgas*& pradzios) {
-    std::cout << "Iveskite simboliu seka (baigti su Enter ir Ctrl+D arba Ctrl+Z):\n";
+    std::cout << "Iveskite simboliu seka (baigti su Enter):\n";
     atlaisvintiSarasa(pradzios);
     pradzios = nullptr;
     char c;
     std::cin.ignore();
-    while (std::cin.get(c)) {
+    while (std::cin.get(c) && c != '\n') {
         pradzios = iterpti(pradzios, c);
     }
-    std::cin.clear();
 }
 
 int main() {
